@@ -1,21 +1,13 @@
 {
-  "name": "Python App",
+  "name": "Python Dev",
   "image": "mcr.microsoft.com/devcontainers/python:3.11",
-
-  // After container is created, install requirements
   "postCreateCommand": "pip install -r requirements.txt",
-
   "customizations": {
     "vscode": {
       "extensions": [
         "ms-python.python",
-        "ms-toolsai.jupyter"
+        "ms-python.vscode-pylance"
       ]
     }
-  },
-
-  "runArgs": ["--env", "PYTHONUNBUFFERED=1"],
-
-  // Default command to run when Codespace starts
-  "overrideCommand": false
+  }
 }
