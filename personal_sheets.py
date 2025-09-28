@@ -6,8 +6,8 @@ PEOPLE = [
     {
             "name": "Grace",
             "sheet_id": "1DLtMRRZC0BMjvQbLrtty7-vrTjtzRsjLNhpsI_RbEWY",
-            #"whatsapp": "+2348071669947"
-            "whatsapp": "+2347038599873"
+            "whatsapp": "+2348071669947"
+            #"whatsapp": "+2347038599873"
            ,
                                 },
                           
