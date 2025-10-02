@@ -1,11 +1,10 @@
-
 # whatsapp_sender.py
 import os
 import time
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 from typing import List
-from config import CREDS_FILE, HEADERS, STATE_DIR, WHATSAPP_DELAY_SECONDS, TWILIO_SID, TWILIO_AUTH, TWILIO_FROM
+from config import CREDS_FILE, STATE_DIR, WHATSAPP_DELAY_SECONDS, TWILIO_SID, TWILIO_AUTH, TWILIO_FROM
 from personal_sheets import PEOPLE
 from twilio.rest import Client
 
@@ -36,30 +35,11 @@ def _save_last_sent_row(name: str, row: int) -> None:
     path = _person_tracker_file(name)
     with open(path, "w") as f:
         f.write(str(row))
-'''
-def _row_to_message(row: List[str]) -> str:
-    kv = {HEADERS[i]: (row[i] if i < len(row) else "") for i in range(len(HEADERS))}
-    lines = [
-        "New Order Assigned 🛍️",
-        f"Order #{kv.get('ORDER NUMBER', 'N/A')}",
-        f"Customer: {kv.get('FIRST NAME', '')} {kv.get('LAST NAME', '')}",
-        f"Phone: {kv.get('PHONE NUMBER', '')}",
-        f"Location: {kv.get('LOCATION', '')}",
-        f"Items:",
-        f" - {kv.get('PRODUCT', '')} x{kv.get('QUANTITY', '')} @ NGN{kv.get('PRICE', '')}",
-    ]
 
-    # ✅ Address from Column P
-    address = kv.get("ADDRESS", "")
-    if address.strip():
-        lines.append(f"Address: {address}")
+def _row_to_message(row: List[str], header: List[str]) -> str:
+    # Map actual sheet header → row values
+    kv = {header[i].strip(): (row[i] if i < len(row) else "") for i in range(len(header))}
 
-    lines.append(f"Date: {kv.get('DATE', '')}")
-    return "\n".join(lines)
-
-'''
-def _row_to_message(row: List[str]) -> str:
-    kv = {HEADERS[i]: (row[i] if i < len(row) else "") for i in range(len(HEADERS))}
     lines = [
         "New Order Assigned 🛍️",
         f"Order #{kv.get('ORDER NUMBER', 'N/A')}",
@@ -81,7 +61,6 @@ def _row_to_message(row: List[str]) -> str:
 
     return "\n".join(lines)
 
-
 def _send_whatsapp(phone: str, message: str):
     try:
         msg = twilio_client.messages.create(
@@ -101,9 +80,7 @@ def send_new_personal_rows_via_whatsapp():
     for person in PEOPLE:
         name = person["name"]
         phone = person["whatsapp"]
-        #ws = client.open_by_key(person["sheet_id"]).worksheets()[1]
         ws = client.open_by_key(person["sheet_id"]).worksheet("October")
-
 
         all_vals = ws.get_all_values()
         if not all_vals:
@@ -119,7 +96,7 @@ def send_new_personal_rows_via_whatsapp():
             continue
 
         for row in new_rows:
-            msg = _row_to_message(row)
+            msg = _row_to_message(row, header)
             print(f"📲 Sending WhatsApp to {name} ({phone}) ...")
             sid = _send_whatsapp(phone, msg)
             if sid:
