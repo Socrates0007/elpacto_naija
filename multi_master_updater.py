@@ -46,7 +46,7 @@ def append_new_orders_to_master() -> int:
     # 2. Connect to sheet
     client = _gs_client()
     #ws = client.open_by_key(MASTER_SHEET_ID).sheet1
-    ws = client.open_by_key(MASTER_SHEET_ID).worksheet("October")
+    ws = client.open_by_key(MASTER_SHEET_ID).worksheet("November")
 
     _ensure_headers(ws)
 

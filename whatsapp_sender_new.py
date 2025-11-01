@@ -80,7 +80,7 @@ def send_new_personal_rows_via_whatsapp():
     for person in PEOPLE:
         name = person["name"]
         phone = person["whatsapp"]
-        ws = client.open_by_key(person["sheet_id"]).worksheet("October")
+        ws = client.open_by_key(person["sheet_id"]).worksheet("November")
 
         all_vals = ws.get_all_values()
         if not all_vals:
