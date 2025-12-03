@@ -13,7 +13,7 @@ PEOPLE = [
                           
     {
         "name": "Joy",
-        "sheet_id": "1UBTFv_XqnA-zUtnpQoWE-naYkayR3ncgqgo30QJgvgs",
+        "sheet_id": "1SN8mK4y6hha1wkWmPo2puS0KrkuFdfRK9LZIik0oi_E",
         "whatsapp": "+2349036090803"
         #"whatsapp": "+2347038599873"
         ,
